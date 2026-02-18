@@ -1,0 +1,5 @@
+{
+  "name": "Steuererklärung Assistent",
+  "description": "An intuitive system to help German citizens with their tax declaration (Steuererklärung), using an AI assistant for helpful explanations.",
+  "requestFramePermissions": []
+}

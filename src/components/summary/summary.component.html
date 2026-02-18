@@ -1,0 +1,136 @@
+
+@let data = taxData();
+
+<div id="tax-form-summary" class="bg-white p-8 border border-slate-200 shadow-lg rounded-lg">
+  <!-- Document Header -->
+  <div class="flex justify-between items-start mb-8 pb-4 border-b">
+    <div>
+      <h2 class="text-3xl font-bold text-slate-800">Steuererklärung {{ taxYear() }}</h2>
+      <p class="text-slate-600">Zusammenfassende Übersicht zur Übermittlung</p>
+    </div>
+    <div class="text-right text-sm text-slate-700">
+      <p class="font-bold">An das</p>
+      <p>Zuständige Finanzamt</p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="space-y-6">
+
+    <!-- A - Persönliche Angaben -->
+    <section>
+      <h3 class="text-xl font-bold text-slate-700 mb-4 bg-slate-100 p-2 rounded-md">A - Persönliche Angaben</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 text-sm p-2">
+        <div><span class="font-semibold text-slate-500 w-32 inline-block">Steuer-ID:</span> <span class="text-slate-900 font-mono">{{ data.personalData.taxId }}</span></div>
+        <div><span class="font-semibold text-slate-500 w-32 inline-block">IBAN:</span> <span class="text-slate-900 font-mono">{{ data.personalData.iban }}</span></div>
+        <div class="sm:col-span-2 border-t mt-2 pt-3"><span class="font-semibold text-slate-500 w-32 inline-block">Name:</span> <span class="text-slate-900">{{ data.personalData.firstName }} {{ data.personalData.lastName }}</span></div>
+        <div><span class="font-semibold text-slate-500 w-32 inline-block">Geburtsdatum:</span> <span class="text-slate-900">{{ data.personalData.dateOfBirth | date:'dd.MM.yyyy' }}</span></div>
+        <div class="sm:col-span-2"><span class="font-semibold text-slate-500 w-32 inline-block">Anschrift:</span> <span class="text-slate-900">{{ data.personalData.street }} {{ data.personalData.houseNumber }}, {{ data.personalData.postalCode }} {{ data.personalData.city }}</span></div>
+        <div><span class="font-semibold text-slate-500 w-32 inline-block">Familienstand:</span> <span class="text-slate-900 capitalize">{{ data.personalData.maritalStatus === 'single' ? 'Ledig' : 'Verheiratet' }}</span></div>
+        <div><span class="font-semibold text-slate-500 w-32 inline-block">Religion:</span> <span class="text-slate-900 capitalize">{{ data.personalData.religion }}</span></div>
+      </div>
+    </section>
+
+    <!-- B - Einnahmen (Anlage N) -->
+    <section>
+      <h3 class="text-xl font-bold text-slate-700 mb-3 bg-slate-100 p-2 rounded-md">B - Einnahmen aus nichtselbstständiger Arbeit (Anlage N)</h3>
+      <table class="w-full text-sm">
+        <tbody>
+          <tr class="border-b">
+            <td class="py-2 text-slate-600">Bruttoarbeitslohn</td>
+            <td class="py-2 text-right font-mono text-slate-900">{{ data.income.grossSalary | number:'1.2-2' }} €</td>
+          </tr>
+          <tr class="border-b">
+            <td class="py-2 text-slate-600">Einbehaltene Lohnsteuer</td>
+            <td class="py-2 text-right font-mono text-slate-900">{{ data.income.incomeTax | number:'1.2-2' }} €</td>
+          </tr>
+          <tr>
+            <td class="py-2 text-slate-600">Einbehaltener Solidaritätszuschlag</td>
+            <td class="py-2 text-right font-mono text-slate-900">{{ data.income.solidaritySurcharge | number:'1.2-2' }} €</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- C - Werbungskosten (Anlage N) -->
+    <section>
+      <h3 class="text-xl font-bold text-slate-700 mb-3 bg-slate-100 p-2 rounded-md">C - Werbungskosten (Anlage N)</h3>
+      <table class="w-full text-sm">
+        <tbody>
+          <tr class="border-b"><td class="py-2 text-slate-600">Entfernungspauschale</td><td class="py-2 text-right font-mono text-slate-900">{{ commuteAllowance() | number:'1.2-2' }} €</td></tr>
+          <tr class="border-b"><td class="py-2 text-slate-600">Homeoffice-Pauschale</td><td class="py-2 text-right font-mono text-slate-900">{{ homeOfficeAllowance() | number:'1.2-2' }} €</td></tr>
+          <tr class="border-b"><td class="py-2 text-slate-600">Arbeitsmittel</td><td class="py-2 text-right font-mono text-slate-900">{{ data.expenses.workEquipment | number:'1.2-2' }} €</td></tr>
+          <tr class="border-b"><td class="py-2 text-slate-600">Fortbildungskosten</td><td class="py-2 text-right font-mono text-slate-900">{{ data.expenses.trainingCosts | number:'1.2-2' }} €</td></tr>
+          <tr class="border-b"><td class="py-2 text-slate-600">Bewerbungskosten</td><td class="py-2 text-right font-mono text-slate-900">{{ data.expenses.applicationCosts | number:'1.2-2' }} €</td></tr>
+          <tr class="border-b"><td class="py-2 text-slate-600">Weitere Reisekosten</td><td class="py-2 text-right font-mono text-slate-900">{{ data.expenses.workRelatedTravel | number:'1.2-2' }} €</td></tr>
+          <tr class="border-b"><td class="py-2 text-slate-600">Kontoführungsgebühren</td><td class="py-2 text-right font-mono text-slate-900">{{ data.expenses.accountFees | number:'1.2-2' }} €</td></tr>
+          <tr class="bg-slate-50"><td class="py-2 font-bold text-slate-700">Gesamte Werbungskosten</td><td class="py-2 text-right font-mono font-bold text-slate-900">{{ totalExpenses() | number:'1.2-2' }} €</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- D - Sonderausgaben (Vorsorgeaufwand) -->
+    <section>
+        <h3 class="text-xl font-bold text-slate-700 mb-3 bg-slate-100 p-2 rounded-md">D - Vorsorgeaufwendungen</h3>
+        <table class="w-full text-sm">
+            <tbody>
+                <tr class="border-b"><td class="py-2 text-slate-600">Beiträge zur Kranken- & Pflegeversicherung</td><td class="py-2 text-right font-mono text-slate-900">{{ data.insurances.healthInsurance | number:'1.2-2' }} €</td></tr>
+                <tr><td class="py-2 text-slate-600">Beiträge zu Haftpflichtversicherungen</td><td class="py-2 text-right font-mono text-slate-900">{{ data.insurances.liabilityInsurance | number:'1.2-2' }} €</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- E - Haushaltsnahe Aufwendungen -->
+    <section>
+        <h3 class="text-xl font-bold text-slate-700 mb-3 bg-slate-100 p-2 rounded-md">E - Haushaltsnahe Aufwendungen</h3>
+        <table class="w-full text-sm">
+            <tbody>
+                <tr class="border-b"><td class="py-2 text-slate-600">Haushaltsnahe Dienstleistungen</td><td class="py-2 text-right font-mono text-slate-900">{{ data.householdServices.services | number:'1.2-2' }} €</td></tr>
+                <tr><td class="py-2 text-slate-600">Handwerkerleistungen (Arbeitskosten)</td><td class="py-2 text-right font-mono text-slate-900">{{ data.householdServices.tradesmen | number:'1.2-2' }} €</td></tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- Signature -->
+    <div class="mt-12 pt-8 border-t border-slate-300">
+      <p class="text-sm text-slate-600 mb-6">Ich versichere die Richtigkeit der obigen Angaben. Dieses Dokument wurde digital mit dem Steuer Assistent erstellt.</p>
+      <div class="grid grid-cols-2 gap-8">
+        <div>
+          <div class="border-b border-slate-400 pb-1 h-8"></div>
+          <p class="text-center text-xs text-slate-500 pt-1">Ort, Datum</p>
+        </div>
+        <div>
+          <div class="border-b border-slate-400 pb-1 h-8"></div>
+          <p class="text-center text-xs text-slate-500 pt-1">Unterschrift</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Action Buttons -->
+<div id="summary-action-buttons" class="mt-8 pt-6 border-t flex flex-col sm:flex-row justify-between items-center gap-4">
+    <button type="button" (click)="onBack()" class="w-full sm:w-auto bg-slate-100 text-slate-800 font-bold py-3 px-6 rounded-lg hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 transition-colors duration-300 flex items-center gap-2">
+       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z" clip-rule="evenodd" /></svg>
+      <span>Zurück zu Schritt 5</span>
+    </button>
+    <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+        <button type="button" (click)="onDownloadPdf()" [disabled]="isDownloading()" class="w-full sm:w-auto bg-white text-blue-600 border border-blue-600 font-bold py-2 px-6 rounded-lg hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 disabled:bg-slate-300 disabled:cursor-not-allowed">
+            @if (isDownloading()) {
+              <span>PDF wird erstellt...</span>
+            } @else {
+              <span>PDF Herunterladen</span>
+            }
+        </button>
+        <button type="button" (click)="fileInput.click()" class="w-full sm:w-auto bg-white text-blue-600 border border-blue-600 font-bold py-2 px-6 rounded-lg hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+          </svg>
+          <span>Belege hochladen</span>
+        </button>
+        <input type="file" class="hidden" #fileInput (change)="onFileSelected($event)" multiple>
+        <button type="button" (click)="onSubmit()" class="w-full sm:w-auto bg-green-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors duration-300 text-lg">
+          Jetzt an das Finanzamt senden
+        </button>
+    </div>
+</div>

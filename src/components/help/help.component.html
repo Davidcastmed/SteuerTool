@@ -1,0 +1,71 @@
+
+<div class="bg-white rounded-2xl shadow-xl p-6 sm:p-10 min-h-full">
+  <div class="flex justify-between items-start mb-6">
+    <div>
+      <h2 class="text-3xl font-bold text-slate-800 mb-2">Hilfe & Informationen</h2>
+      <p class="text-slate-600">Alles Wichtige für Ihre erfolgreiche Steuererklärung.</p>
+    </div>
+    <button (click)="onClose()" class="bg-slate-100 text-slate-800 font-bold py-2 px-4 rounded-lg hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-400 transition-colors duration-300 flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z" clip-rule="evenodd" /></svg>
+      <span>Zurück zum Assistenten</span>
+    </button>
+  </div>
+  
+  <div class="space-y-8 text-slate-700">
+    
+    <!-- Benötigte Unterlagen -->
+    <div class="p-6 border border-blue-200 bg-blue-50 rounded-lg">
+      <h3 class="text-xl font-bold text-blue-800 mb-4">Benötigte Unterlagen</h3>
+      <p class="mb-4">Halten Sie die folgenden Dokumente bereit, um alle Angaben korrekt eintragen zu können:</p>
+      <ul class="list-disc list-inside space-y-2">
+        <li><strong>Lohnsteuerbescheinigung:</strong> Das wichtigste Dokument von Ihrem Arbeitgeber mit allen Daten zu Lohn und Abzügen.</li>
+        <li><strong>Steuer-Identifikationsnummer:</strong> Ihre persönliche, 11-stellige Identifikationsnummer.</li>
+        <li><strong>Bankverbindung (IBAN):</strong> Für eventuelle Steuererstattungen.</li>
+        <li><strong>Belege für Werbungskosten:</strong> Rechnungen für Arbeitsmittel, Fachbücher, Fahrtkosten (Tickets), Fortbildungen etc.</li>
+        <li><strong>Bescheinigungen über Versicherungsbeiträge:</strong> Nachweise über Beiträge zur Kranken-, Pflege- und Haftpflichtversicherung.</li>
+        <li><strong>Rechnungen für haushaltsnahe Dienstleistungen & Handwerker:</strong> Wichtig sind hier die Lohnkosten und der Nachweis der Banküberweisung.</li>
+        <li><strong>Spendenbescheinigungen:</strong> Wenn Sie Spenden als Sonderausgaben geltend machen möchten.</li>
+      </ul>
+    </div>
+
+    <!-- Abgabe der Steuererklärung -->
+    <div class="p-6 border border-slate-200 bg-white rounded-lg">
+      <h3 class="text-xl font-bold text-slate-800 mb-4">Abgabe der Steuererklärung</h3>
+      <p class="mb-4">Nachdem Sie alle Daten erfasst haben, gibt es hauptsächlich zwei Wege, Ihre Erklärung an das Finanzamt zu übermitteln:</p>
+      <div class="space-y-3">
+        <div>
+          <h4 class="font-bold">1. Digitale Übermittlung (empfohlen)</h4>
+          <p>Der offizielle und schnellste Weg ist die Übermittlung über das <strong class="text-blue-600">ELSTER-Portal</strong>. Sie können die in diesem Assistenten gesammelten Daten dort manuell übertragen oder den von uns generierten PDF-Ausdruck als Ausfüllhilfe verwenden. Belege müssen Sie nur noch auf Nachfrage des Finanzamts einreichen.</p>
+        </div>
+        <div>
+          <h4 class="font-bold">2. Versand per Post</h4>
+          <p>Sie können das von uns erstellte PDF herunterladen, ausdrucken und unterschreiben. Senden Sie es dann an Ihr zuständiges Finanzamt. Welches Finanzamt für Sie zuständig ist, hängt von Ihrem Wohnort ab. Sie finden es leicht über eine Online-Suche nach "Finanzamt-Suche" und Ihrer Postleitzahl.</p>
+          <div class="mt-2 p-3 bg-slate-100 rounded-md text-sm">
+            <p><strong>Adressformat (Beispiel):</strong><br>
+            An das Finanzamt [Ihr Ort]<br>
+            [Straße und Hausnummer des Finanzamts]<br>
+            [PLZ und Ort des Finanzamts]</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wichtige Fristen -->
+    <div class="p-6 border border-amber-200 bg-amber-50 rounded-lg">
+        <h3 class="text-xl font-bold text-amber-800 mb-4">Wichtige Fristen</h3>
+        <p>Für die freiwillige Abgabe einer Steuererklärung haben Sie <strong>vier Jahre Zeit</strong>. Für die Steuererklärung 2023 können Sie diese also bis zum 31.12.2027 einreichen.</p>
+        <p class="mt-2">Wenn Sie zur Abgabe verpflichtet sind, ist die Frist in der Regel der <strong>31. Juli des Folgejahres</strong>. (Für 2024 also der 31.07.2025).</p>
+    </div>
+
+    <!-- Allgemeine Tipps -->
+    <div class="p-6 border border-slate-200 bg-white rounded-lg">
+      <h3 class="text-xl font-bold text-slate-800 mb-4">Allgemeine Tipps für ein optimales Ergebnis</h3>
+      <ul class="list-disc list-inside space-y-2">
+        <li><strong>Belege sammeln:</strong> Auch wenn Sie nicht mehr alle Belege mitschicken müssen, bewahren Sie diese sorgfältig auf. Das Finanzamt kann sie jederzeit anfordern.</li>
+        <li><strong>Pauschalen nutzen:</strong> Nutzen Sie alle Pauschalen, die Ihnen zustehen, wie die Werbungskostenpauschale (wird automatisch berücksichtigt), die Homeoffice-Pauschale oder die Kontoführungspauschale.</li>
+        <li><strong>Kleinvieh macht auch Mist:</strong> Geben Sie auch kleinere Beträge an. Viele kleine Posten können in der Summe einen großen Unterschied machen.</li>
+        <li><strong>Steuerbescheid prüfen:</strong> Wenn Sie Ihren Steuerbescheid vom Finanzamt zurückbekommen, prüfen Sie ihn sorgfältig. Sollten Sie einen Fehler finden, können Sie innerhalb eines Monats Einspruch einlegen.</li>
+      </ul>
+    </div>
+  </div>
+</div>

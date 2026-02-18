@@ -1,0 +1,107 @@
+
+<div class="flex gap-16">
+  <!-- Form Section -->
+  <div class="w-3/5">
+    <h2 class="text-3xl font-bold text-slate-800 mb-2">Persönliche Daten</h2>
+    <p class="text-slate-600 mb-8">Diese Angaben sind für die Identifizierung durch das Finanzamt notwendig.</p>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
+          <label for="firstName" class="block text-sm font-bold text-slate-700">Vorname</label>
+          <input type="text" id="firstName" formControlName="firstName" class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 rounded-md shadow-sm text-slate-800 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white sm:text-sm transition-colors duration-200" placeholder="Max">
+          @if (form.controls.firstName.invalid && form.controls.firstName.touched) {
+            <p class="text-red-500 text-xs mt-1">Vorname ist ein Pflichtfeld.</p>
+          }
+        </div>
+        <div>
+          <label for="lastName" class="block text-sm font-bold text-slate-700">Nachname</label>
+          <input type="text" id="lastName" formControlName="lastName" class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 rounded-md shadow-sm text-slate-800 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white sm:text-sm transition-colors duration-200" placeholder="Mustermann">
+           @if (form.controls.lastName.invalid && form.controls.lastName.touched) {
+            <p class="text-red-500 text-xs mt-1">Nachname ist ein Pflichtfeld.</p>
+          }
+        </div>
+         <div>
+          <label for="dateOfBirth" class="block text-sm font-bold text-slate-700">Geburtsdatum</label>
+          <input type="date" id="dateOfBirth" formControlName="dateOfBirth" class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 rounded-md shadow-sm text-slate-800 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white sm:text-sm transition-colors duration-200">
+           @if (form.controls.dateOfBirth.invalid && form.controls.dateOfBirth.touched) {
+            <p class="text-red-500 text-xs mt-1">Geburtsdatum ist ein Pflichtfeld.</p>
+          }
+        </div>
+      </div>
+
+      <div class="pt-2">
+         <h3 class="font-bold text-slate-800 mb-4 text-lg">Anschrift</h3>
+         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="md:col-span-2">
+              <label for="street" class="block text-sm font-bold text-slate-700">Straße</label>
+              <input type="text" id="street" formControlName="street" class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 rounded-md shadow-sm text-slate-800 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white sm:text-sm transition-colors duration-200" placeholder="Musterstraße">
+            </div>
+            <div>
+              <label for="houseNumber" class="block text-sm font-bold text-slate-700">Hausnummer</label>
+              <input type="text" id="houseNumber" formControlName="houseNumber" class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 rounded-md shadow-sm text-slate-800 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white sm:text-sm transition-colors duration-200" placeholder="1a">
+            </div>
+            <div>
+              <label for="postalCode" class="block text-sm font-bold text-slate-700">Postleitzahl</label>
+              <input type="text" id="postalCode" formControlName="postalCode" class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 rounded-md shadow-sm text-slate-800 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white sm:text-sm transition-colors duration-200" placeholder="12345">
+               @if (form.controls.postalCode.invalid && form.controls.postalCode.touched) {
+                  <p class="text-red-500 text-xs mt-1">Gültige PLZ eingeben.</p>
+              }
+            </div>
+             <div class="md:col-span-2">
+              <label for="city" class="block text-sm font-bold text-slate-700">Wohnort</label>
+              <input type="text" id="city" formControlName="city" class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 rounded-md shadow-sm text-slate-800 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white sm:text-sm transition-colors duration-200" placeholder="Musterstadt">
+            </div>
+         </div>
+      </div>
+
+       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+         <div>
+          <label for="maritalStatus" class="block text-sm font-bold text-slate-700">Familienstand</label>
+          <select id="maritalStatus" formControlName="maritalStatus" class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 rounded-md shadow-sm text-slate-800 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white sm:text-sm transition-colors duration-200">
+            <option value="single">Ledig</option>
+            <option value="married">Verheiratet / Verpartnert</option>
+          </select>
+        </div>
+         <div>
+          <label for="religion" class="block text-sm font-bold text-slate-700">Religion (für Kirchensteuer)</label>
+          <select id="religion" formControlName="religion" class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 rounded-md shadow-sm text-slate-800 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white sm:text-sm transition-colors duration-200">
+            <option value="none">Keine</option>
+            <option value="catholic">Römisch-katholisch</option>
+            <option value="protestant">Evangelisch</option>
+          </select>
+        </div>
+       </div>
+      
+      <div>
+        <label for="taxId" class="block text-sm font-bold text-slate-700">Steuer-Identifikationsnummer</label>
+        <input type="text" id="taxId" formControlName="taxId" class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 rounded-md shadow-sm text-slate-800 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white sm:text-sm transition-colors duration-200" placeholder="11-stellige Nummer">
+         @if (form.controls.taxId.invalid && form.controls.taxId.touched) {
+          <p class="text-red-500 text-xs mt-1">Bitte geben Sie eine gültige 11-stellige Steuer-ID ein.</p>
+        }
+      </div>
+
+       <div>
+        <label for="iban" class="block text-sm font-bold text-slate-700">IBAN für Steuererstattungen</label>
+        <input type="text" id="iban" formControlName="iban" class="mt-1 block w-full px-3 py-2 bg-slate-100 border border-slate-300 rounded-md shadow-sm text-slate-800 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:bg-white sm:text-sm transition-colors duration-200" placeholder="DE89 3704 0044 0532 0130 00">
+          @if (form.controls.iban.invalid && form.controls.iban.touched) {
+            <p class="text-red-500 text-xs mt-1">Bitte geben Sie eine gültige IBAN ein.</p>
+          }
+      </div>
+
+      <div class="flex justify-end pt-4">
+        <button type="submit" class="bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 flex items-center gap-2">
+          <span>Weiter</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd" /></svg>
+        </button>
+      </div>
+    </form>
+  </div>
+  <!-- AI Assistant -->
+  <div class="w-2/5">
+    <app-ai-assistant 
+      mainTopic="Persönliche Daten"
+      [subTopics]="subTopics">
+    </app-ai-assistant>
+  </div>
+</div>

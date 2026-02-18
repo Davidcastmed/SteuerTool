@@ -1,0 +1,27 @@
+
+<div class="fixed inset-0 bg-black bg-opacity-50 z-40"></div>
+<div class="fixed bottom-8 right-8 w-full max-w-md bg-white rounded-2xl shadow-2xl p-6 z-50 animate-fade-in-up">
+  <div class="flex items-center gap-3 mb-4">
+    <div class="flex-shrink-0 bg-blue-100 p-2 rounded-full">
+      <svg class="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18-3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6-2.292m0 0V21M12 12.75H18" />
+      </svg>
+    </div>
+    <h3 class="text-lg font-bold text-slate-800">{{ tourContent().title }}</h3>
+    <span class="text-sm font-bold text-slate-400">Schritt {{ currentStep() }} / 6</span>
+  </div>
+
+  <p class="text-sm text-slate-600 mb-6">
+    {{ tourContent().explanation }}
+  </p>
+  
+  <div class="flex justify-between items-center">
+    <button (click)="onExit()" class="text-sm text-slate-500 hover:text-slate-700 font-medium">
+      Tour beenden
+    </button>
+    <button (click)="onProceed()" class="bg-blue-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 flex items-center gap-2">
+      <span>{{ tourContent().buttonText }}</span>
+       <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd" /></svg>
+    </button>
+  </div>
+</div>

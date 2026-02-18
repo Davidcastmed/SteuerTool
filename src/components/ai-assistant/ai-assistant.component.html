@@ -1,0 +1,61 @@
+
+<div class="bg-slate-50 border border-slate-200 rounded-2xl p-6 sticky top-8">
+  <div class="flex items-center gap-3 mb-4">
+    <div class="flex-shrink-0 bg-blue-100 p-2 rounded-full">
+       <svg class="h-6 w-6 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456Z" />
+        </svg>
+    </div>
+     <h3 class="text-lg font-bold text-slate-800">KI-Assistent</h3>
+  </div>
+
+  <div class="text-sm text-slate-600 min-h-[80px]">
+    @if(isLoading()) {
+      <div class="space-y-2 animate-pulse">
+        <div class="h-4 bg-slate-200 rounded w-full"></div>
+        <div class="h-4 bg-slate-200 rounded w-5/6"></div>
+        <div class="h-4 bg-slate-200 rounded w-3/4"></div>
+      </div>
+    } @else {
+      <p>{{ explanation() }}</p>
+    }
+  </div>
+
+  @if(subTopics().length > 0) {
+    <div class="mt-6 border-t pt-4">
+      <h4 class="font-bold text-slate-700 mb-3 text-sm">Mehr erfahren:</h4>
+      <div class="flex flex-col space-y-2">
+        @for(topic of subTopics(); track topic.key) {
+          <button (click)="getExplanation(topic.key)" 
+                  class="text-left text-sm font-medium text-blue-600 hover:text-blue-800 hover:underline disabled:text-slate-400 disabled:no-underline"
+                  [disabled]="isLoading()">
+            {{ topic.label }}
+          </button>
+        }
+      </div>
+    </div>
+  }
+
+  @if (contextData()) {
+    <div class="mt-6 border-t pt-4">
+       <div class="flex items-center gap-3 mb-4">
+          <div class="flex-shrink-0 bg-amber-100 p-2 rounded-full">
+            <svg class="w-6 h-6 text-amber-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.311a7.5 7.5 0 0 1-7.5 0c-1.42 0-2.798.347-4.096.967a12.06 12.06 0 0 1 4.096-9.573 12.06 12.06 0 0 1 7.5 0 12.06 12.06 0 0 1 4.096 9.573A12.06 12.06 0 0 1 12 21.75c-2.676 0-5.216-.84-7.284-2.311" />
+            </svg>
+          </div>
+          <h4 class="font-bold text-slate-700 text-sm">Optimierungsvorschläge</h4>
+       </div>
+       <div class="text-sm text-slate-600 min-h-[50px]">
+          @if(isLoadingSuggestions()) {
+            <div class="space-y-2 animate-pulse">
+              <div class="h-4 bg-slate-200 rounded w-full"></div>
+              <div class="h-4 bg-slate-200 rounded w-5/6"></div>
+            </div>
+          } @else {
+            <p [innerHTML]="suggestions()?.replace(/\*/g, '•')"></p>
+          }
+       </div>
+    </div>
+  }
+</div>

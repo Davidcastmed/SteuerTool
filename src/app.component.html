@@ -1,0 +1,151 @@
+
+@if(isTourActive()){
+  <app-guide 
+    [currentStep]="tourStep()" 
+    [tourContent]="tourContent[tourStep() - 1]"
+    (proceed)="advanceTour()"
+    (exit)="exitTour()"
+  />
+}
+<div class="bg-stone-50">
+  <div class="w-full max-w-screen-2xl mx-auto bg-white shadow-2xl flex h-screen">
+    <!-- Left Sidebar -->
+    <aside class="w-1/4 bg-white border-r border-slate-200 flex flex-col p-6 overflow-y-auto">
+      <div class="flex items-center gap-3 mb-10">
+        <svg class="h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18-3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6-2.292m0 0V21M12 12.75H18" />
+        </svg>
+        <h1 class="text-xl font-bold text-slate-800">Steuer Assistent</h1>
+      </div>
+      
+      <nav class="flex flex-col space-y-2">
+        @for(step of steps; track step.number) {
+          <a (click)="goToStep(step.number)" 
+            class="flex items-center px-4 py-3 rounded-lg transition-colors duration-200 text-[rgb(166,125,82)]"
+            [class.bg-blue-50]="!showHelp() && currentStep() === step.number"
+            [class.font-bold]="!showHelp() && currentStep() === step.number"
+            [class.hover:bg-slate-100]="!isTourActive() && !showIntro() && (currentStep() > step.number || currentStep() === step.number -1)"
+            [class.cursor-pointer]="!isTourActive() && !showIntro()"
+            [class.cursor-not-allowed]="isTourActive() || showIntro()"
+            >
+            
+            @if(currentStep() > step.number) {
+              <span class="flex items-center justify-center w-6 h-6 mr-3 bg-green-100 rounded-full">
+                <svg class="w-4 h-4 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 0 1 .143 1.052l-8 10.5a.75.75 0 0 1-1.127.075l-4.5-4.5a.75.75 0 0 1 1.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 0 1 1.052-.143Z" clip-rule="evenodd" />
+                </svg>
+              </span>
+            } @else {
+              <span class="flex items-center justify-center w-6 h-6 mr-3 border-2 rounded-full"
+                    [class.border-blue-600]="!showHelp() && currentStep() === step.number"
+                    [class.text-blue-600]="!showHelp() && currentStep() === step.number"
+                    [class.border-slate-300]="showHelp() || currentStep() < step.number"
+                    [class.text-slate-400]="showHelp() || currentStep() < step.number"
+              >
+                <span class="text-xs font-bold">{{ step.number }}</span>
+              </span>
+            }
+            
+            <span class="text-base">{{ step.title }}</span>
+          </a>
+        }
+      </nav>
+
+      <div class="mt-auto pt-6 border-t border-slate-200">
+          <a (click)="showHelp.set(true)" 
+            class="flex items-center px-4 py-3 rounded-lg transition-colors duration-200 cursor-pointer"
+            [class.bg-blue-50]="showHelp()"
+            [class.text-blue-700]="showHelp()"
+            [class.font-bold]="showHelp()"
+            [class.text-slate-600]="!showHelp()"
+            [class.hover:bg-slate-100]="!showHelp()"
+            >
+            <span class="flex items-center justify-center w-6 h-6 mr-3">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+              </svg>
+            </span>
+             <span class="text-sm">Hilfe & Infos</span>
+          </a>
+      </div>
+
+      <div class="text-center text-xs text-slate-500 mt-6">
+        Made with ❤️ by David Castillo PhiConsulting
+      </div>
+
+    </aside>
+
+    <!-- Right Content Area -->
+    <div class="w-3/4 flex flex-col">
+      <header class="bg-white border-b border-slate-200 p-6 flex justify-between items-center flex-shrink-0">
+          <div class="flex items-center gap-2">
+             <h2 class="text-lg font-semibold text-slate-700">Steuererklärung</h2>
+             <select [value]="taxYear()" (change)="onYearChange($event)" class="font-semibold text-lg bg-black text-white border-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                @for(year of availableTaxYears; track year) {
+                  <option class="bg-black text-white" [value]="year">{{year}}</option>
+                }
+             </select>
+          </div>
+          <div class="flex items-center gap-4">
+              <button (click)="startTour()" [disabled]="isTourActive()" class="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-300 disabled:bg-slate-400 disabled:cursor-not-allowed flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+                </svg>
+                <span>Geführte Tour</span>
+              </button>
+              <button (click)="fillWithExampleData()" [disabled]="isLoadingExample() || isTourActive()" class="bg-amber-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-400 transition-colors duration-300 disabled:bg-slate-400 disabled:cursor-not-allowed flex items-center justify-center">
+                @if (isLoadingExample()) {
+                  <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  <span>Lade Beispiel...</span>
+                } @else {
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+                    <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd" />
+                  </svg>
+                  <span>Schnell-Ausfüllen</span>
+                }
+              </button>
+          </div>
+      </header>
+      <main class="flex-grow overflow-y-auto p-8 bg-stone-50">
+          @if(showHelp()) {
+             <div @stepAnimation>
+                <app-help (close)="showHelp.set(false)" />
+             </div>
+          } @else {
+            @if(showIntro() && currentStep() === 1) {
+              <div @stepAnimation class="h-full -m-8">
+                  <app-intro (start)="handleStart()"></app-intro>
+              </div>
+            } @else {
+              <div class="bg-white rounded-2xl shadow-xl p-6 sm:p-10 min-h-full">
+                  @switch (currentStep()) {
+                    @case (1) {
+                      <div @stepAnimation><app-personal-data (dataUpdate)="handleDataUpdate($event)" [initialData]="taxData().personalData" [isReadOnly]="isTourActive()" /></div>
+                    }
+                    @case (2) {
+                      <div @stepAnimation><app-income (dataUpdate)="handleDataUpdate($event)" (goBack)="previousStep()" [initialData]="taxData().income" [isReadOnly]="isTourActive()"/></div>
+                    }
+                    @case (3) {
+                      <div @stepAnimation><app-expenses (dataUpdate)="handleDataUpdate($event)" (goBack)="previousStep()" [initialData]="taxData().expenses" [contextualTaxData]="taxData().income" [isReadOnly]="isTourActive()" [taxYear]="taxYear()"/></div>
+                    }
+                    @case (4) {
+                      <div @stepAnimation><app-insurances (dataUpdate)="handleDataUpdate($event)" (goBack)="previousStep()" [initialData]="taxData().insurances" [contextualTaxData]="taxData().expenses" [isReadOnly]="isTourActive()"/></div>
+                    }
+                    @case (5) {
+                      <div @stepAnimation><app-household-services (dataUpdate)="handleDataUpdate($event)" (goBack)="previousStep()" [initialData]="taxData().householdServices" [contextualTaxData]="taxData().insurances" [isReadOnly]="isTourActive()"/></div>
+                    }
+                    @case (6) {
+                      <div @stepAnimation><app-summary [taxData]="taxData()" (goBack)="previousStep()" (restart)="restart()" [taxYear]="taxYear()"/></div>
+                    }
+                  }
+              </div>
+            }
+          }
+      </main>
+    </div>
+  </div>
+</div>
